@@ -1,0 +1,373 @@
+%% This is annot.tex.
+%% 
+%% You'll need to change the title and author fields to reflect your
+%% information.
+%%
+%% Author: Titus Barik (titus@barik.net)
+%% Homepage: http://www.barik.net/sw/ieee/
+%% Reference: http://www.ctan.org/tex-archive/info/simplified-latex/
+
+\documentclass [11pt]{article}
+\usepackage{xcolor}
+\usepackage[spanish]{babel}
+\usepackage{upgreek}
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}
+
+\title{Tesis \\\medskip primer borrador}
+\author{Daniel Sucerquia Gaviria (daniel.sucerquia@udea.edu.co)\\Universidad de Antioquia Technology}
+
+\begin{document}
+\maketitle
+
+{\Large \bf Notación}\\
+
+{\color{red} No entiendo}\\
+{\color{blue} Creo que es así, pero tengo que aclararlo mejor para estar seguro}\\
+\section{Aproximación Born-Oppenheimer}
+
+El Hamiltoniano que nosotros estamos considerando es:
+
+\begin{equation}
+    {\hat H}_{tot}={\hat T}_n+{\hat T}_e+{\hat V}_{ne}+{\hat V}_{ee}+{\hat V}_{nn}
+\end{equation}
+
+Que al cambiar de sistema de referencia al centro de masa lo que se tiene es:
+\begin{eqnarray}
+    {\hat H}_{tot} & =  & {\hat T}_n+{\hat H}_e+{\hat H}_{mp} \\
+    {\hat H}_e & = & {\hat T}_n+{\hat V}_{ne}+{\hat V}_{ee}+{\hat V}_{nn}\\
+    {\hat H}_{mp} & = & -\frac{1}{2M_{tot}}\left(\sum_i^{N_{elec}}\nabla_i\right)^2
+\end{eqnarray}
+
+$\hat H_e $ es la energía electrónica, y vemos que ésta sólo depende de la posición de los átomos y no de su momentum ({\color{red}{por eso creo que hay un error en Jensen, creo que debe ser ${\hat T}_e$ en lugar de ${\hat T}_n$}}). Vamos a asumir entonces que existe una solción para el Hamiltoniano electrónico parametrizado con las coordenadas de los núcleos. Además, tenemos que el hamiltoniano electrónico es hermítico y por lo tanto puede escogerse como solución una base ortonormal. De manera que:
+
+\begin{eqnarray}
+    {\hat H}_e({\bf R}) \Uppsi_i({\bf R},{\bf r})=E_i({\bf R}) \Uppsi_i({\bf R},{\bf r})\\
+    \int \Uppsi_i^*({\bf R},{\bf r})\Uppsi_j({\bf R},{\bf r})d{\bf r}=\delta_{ij}
+\end{eqnarray}
+
+De manera que las funciones de onda se convierten en una base sobre la que se puede expandir la solución del Hamiltoniano total considerando los coeficientes como funciones de la posición de los núcleos:
+
+\begin{equation}
+    {\bf \Uppsi}_{tot}({\bf R},{\bf r})=\sum_{i=1}^{\infty}\Uppsi_{ni}({\bf R})\Uppsi_i({\bf R},{\bf r})
+\end{equation}
+
+Aplicando el hamiltoniano total a esta base, la cual debe ser autofunción (La dependencia de $\Uppsi_{ni}$ es sólo en {\bf R}, mientras que la dependencia de $\Uppsi$ es en ({\bf R},{\bf r}), por simplicidad, aquí se evita escribirlas):
+
+\begin{eqnarray}
+    \hat H_{tot}\Uppsi_{tot} & = & E_{tot}\Uppsi_{tot}\\
+    \left({\hat T}_n+{\hat H}_e+{\hat H}_{mp}\right)\left(\sum_{i=1}^{\infty}\Uppsi_{ni}\Uppsi_i\right) & = & E_{tot} \left(\sum_{i=1}^{\infty}\Uppsi_{ni}\Uppsi_i\right)\\
+    \sum_{i=1}^{\infty}\left({\hat T}_n\Uppsi_{ni}\Uppsi_i+\Uppsi_{ni}{\hat H}_e\Uppsi_i+\Uppsi_{ni}{\hat H}_{mp}\Uppsi_i\right) & = & E_{tot} \left(\sum_{i=1}^{\infty}\Uppsi_{ni}\Uppsi_i\right)
+\end{eqnarray}
+
+Además, $\hat T_n=-\sum_{a}\frac{1}{2M_{a}}\nabla_a^2=\nabla_n^2$, donde nos permitimos definir el nuevo operador $\nabla_n$ aprovechando la linealidad del operanor $\nabla_a$. De manera entonces que lo que tenemos es:
+
+\begin{eqnarray}
+    \sum_{i=1}^{\infty}\left({\nabla_n^2}\Uppsi_{ni}\Uppsi_i+\Uppsi_{ni}{\hat H}_e\Uppsi_i+\Uppsi_{ni}{\hat H}_{mp}\Uppsi_i\right) & = & E_{tot} \left(\sum_{i=1}^{\infty}\Uppsi_{ni}\Uppsi_i\right)\\
+    
+    \sum_{i=1}^{\infty}\left({\nabla_n}\cdot({\nabla_n}\Uppsi_{ni}\Uppsi_i+\Uppsi_{ni}{\nabla_n}\Uppsi_i)+\Uppsi_{ni}{\hat H}_e\Uppsi_i+\Uppsi_{ni}{\hat H}_{mp}\Uppsi_i\right) & = & E_{tot} \left(\sum_{i=1}^{\infty}\Uppsi_{ni}\Uppsi_i\right)\\
+    
+    \sum_{i=1}^{\infty}\left({\nabla_n}^2\Uppsi_{ni}\Uppsi_i+2{\nabla_n}\Uppsi_{ni}\cdot {\nabla_n}\Uppsi_i+\Uppsi_{ni}{\nabla_n}^2\Uppsi_i+\Uppsi_{ni}{\hat H}_e\Uppsi_i+\Uppsi_{ni}{\hat H}_{mp}\Uppsi_i\right) & = & E_{tot} \left(\sum_{i=1}^{\infty}\Uppsi_{ni}\Uppsi_i\right)
+\end{eqnarray}\\
+
+Proyectando sobre el estado $\Uppsi_j^*$:
+\begin{eqnarray*}
+    {\nabla_n}^2\Uppsi_{nj}+E_j \Uppsi_{nj}+\sum_{i=1}^{\infty}\left(
+    \begin{array}{cc}
+         2{\nabla_n}\Uppsi_{ni}\cdot\int \Uppsi_j^*{\nabla_n}\Uppsi_i d{\bf r}+\Uppsi_{ni}\int \Uppsi_j^*{\nabla_n^2}\Uppsi_i d{\bf r}\\
+         +\Uppsi_{ni}\int \Uppsi_j^*{\hat H}_{mp}\Uppsi_id{\bf r}
+    \end{array}\right) & = & E_{tot}\Uppsi_{nj}
+\end{eqnarray*}
+
+Utilizando la notación de Dirac para más comodidad lo que se tiene es:
+
+\begin{eqnarray*}
+    {\nabla_n}^2\Uppsi_{nj}+E_j \Uppsi_{nj}+\sum_{i=1}^{\infty}\left(
+    \begin{array}{cc}
+         2{\nabla_n}\Uppsi_{ni}\cdot\langle\Uppsi_j|\nabla_n|\Uppsi_i\rangle+\Uppsi_{ni}\langle\Uppsi_j|{\nabla_n^2}|\Uppsi_i\rangle\\
+         +\Uppsi_{ni}\langle\Uppsi_j|{\hat H}_{mp}|\Uppsi_i\rangle
+    \end{array}\right) & = & E_{tot}\Uppsi_{nj}
+\end{eqnarray*}
+
+{\color{red} literalmente el texto dice: En la aproximación adiabática, la forma de la función de onda total está restringida a una superficie electrónica, es decir se elimina cualquier término de acople (sólo "sobreviven" los términos donde i=j). Pero eliminan también el término de $2{\nabla_n}\Uppsi_{ni}\cdot\langle\Uppsi_j|\nabla_n|\Uppsi_i\rangle$ y no explican por qué } De manera que lo que se tiene es:
+
+\begin{eqnarray*}
+    {\nabla_n}^2\Uppsi_{nj}+E_j \Uppsi_{nj}+\Uppsi_{nj}\langle\Uppsi_j|{\nabla_n^2}|\Uppsi_j\rangle+\Uppsi_{nj}\langle\Uppsi_j|{\hat H}_{mp}|\Uppsi_j\rangle =  E_{tot}\Uppsi_{nj}
+\end{eqnarray*}
+
+Retomando la definición anterior que se le había dado de $\hat T_n=\nabla_n^2$, y despreciando el término de masa de polarización( $\langle\Uppsi_j|{\hat H}_{mp}|\Uppsi_j\rangle$):
+
+\begin{eqnarray*}
+    (\hat T_n+E_j+\langle\Uppsi_j|{\nabla_n^2}|\Uppsi_j\rangle) \Uppsi_{nj} =  E_{tot}\Uppsi_{nj}
+\end{eqnarray*}
+
+En la aproximación de Born-Oppenheimer, el término de $\langle\Uppsi_j|{\nabla_n^2}|\Uppsi_j\rangle$, conocido como corrección diagonal es ignorado y entonces se obtiene:
+
+\begin{eqnarray*}
+    (\hat T_n+E_j) \Uppsi_{nj} =  E_{tot}\Uppsi_{nj}
+\end{eqnarray*}
+
+Que es la forma de la ecuación de Schrödinger. De manera que en la aproximación de Born-Oppenheimer se asume que la dinámica de los núcleos está mediada por una superficie de energía potencial dada por la solución de la ecuación de Schrödinger electrónica.
+
+{\color{blue} Otra forma de entender la aproximación de Born-Oppenheimer es considerar que los movimientos de los núcleos y los electrones son independientes, al punto de que se pueden solucionar las dinámicas de forma independiente}
+
+{\bf \color{blue}  Aun tengo que aclararme bien en qué casos es que falla la aproximación. Entiendo que es cuando la energía de dos posibles estados es muy cercana}
+
+\section{DFT}
+
+Ahora, en el marco de la BOA (aproximación Born- Oppenheimer) trabajaremos entonces una solución para la parte electrónica, cuyo Hamiltoniano es:
+
+%14
+\begin{equation}
+	\hat{H}=-\sum_{i=1}^{N}\frac{1}{2}\nabla_i^2+\overbrace{\sum_{i=1}^{N}v(r_i)}^{v(r_i)=\sum_{\alpha}\frac{z_\alpha}{r_{ij}}}+\sum_{i<j} \frac{1}{r_{ij}}
+\end{equation}
+
+Para este fin, la solución propuesta estará basada en el principio variacional como se verá más adelante. En primer lugar, se define la densidad de estados como:
+{\color{blue} ¿Será que hablo del determinante de Slater?}
+
+%15
+\begin{equation}
+	\rho({\bf r})=N\int\cdots\int |\psi({\bf r},....,{\bf x} _n)|^2 ds_1 d{\bf x}_2\cdots d{\bf x}_n
+\end{equation}
+
+{\green Donde la función de onda $\psi$ es antisimétrica por ser la función de onda de electrones que son fermiones.}El significado físico de esta cantidad es la densidad espacial de electrones que se encuentre en alguno de los estados solución. De manera que si se integra sobre todo el espacio la solución debe ser el número total de electrones, N:
+
+\begin{equation}
+	\int \rho({\bf r})d{\bf r}=N
+\end{equation}
+
+Por definición, esta condición debe ser cumplida y como tal. Más adelante procederemos a imponerla como ligadura al buscar solucionar el funcional de energía.
+{\color{blue} ¿Será que hablo de la idea de Thomas-Fermi para ejemplificar la idea inicial de trabajar con densidades?}\\
+
+\subsection{Teoremas de Honhenberg-Kohn}
+Para proceder entonces con el análisis basados en la densidad, es necesario citar dos teoremas básicos, conocidos como los Teoremas de Honhenberg-Kohn.\\
+
+{\bf Teorema 1:} El potencial externo es definido por la densidad. Es decir, a cada densidad le corresponde un único potencial.\\
+
+{\bf Prueba}:\\
+Se razona por reducción al absurdo suponiendo que existen dos densidades correspondientes a dos hamiltonianos, $\hat H$ y $\hat H'$, que difieren por su potencial. Además definimos $\Uppsi$ y $\Uppsi'$ como las autofunciones de esos hamiltonianos respectivamente. Ahora, por el teorema variacional se debe cumplir que la energía del estado base debe ser menor al valor esperado del hamiltoniano en estados que no sean los autoestados del estado base del hamiltoniano, esto es:
+
+\begin{equation}
+	E_0 < \langle\psi'|H|\psi'\rangle=\langle\psi'|H'|\psi'\rangle+\langle\psi'|H-H'|\psi'\rangle=E_0'+\int\rho({\bf r})[v({\bf r})-v'({\bf r})]
+\end{equation}
+\begin{equation}
+	E_0' < \langle\psi|H'|\psi\rangle=\langle\psi|H|\psi\rangle+\langle\psi|H'-H|\psi\rangle=E_0+\int\rho({\bf r})[v'({\bf r} )-v({\bf r})]
+\end{equation}
+
+Donde se ha utilizado el hecho que para ambos potenciales corresponde una misma densidad. Finalmente, al sumar estas dos ecuaciones, se llega a:
+
+\begin{equation}
+	E_0+E_0' <E_0+E_0'
+\end{equation}
+
+Que es claramente una contradicción. Se concluye entonces que para dos potenciales existe una única densidad.\\
+
+{\bf Teorema 2:} Para una densidad arbitraria, $\tilde \rho({\bf r}) \geq 0$, que cumpla las condición $\int \tilde\rho({\bf r})d{\bf r}=N$\\
+
+\begin{equation}
+    E_0<E[\tilde\rho]
+\end{equation}	
+
+{\bf Prueba}:\\
+Dado que este teorema es el análogo del teorema variacional para la densidad, no es de extrañar que la prueba use este hecho para su desarrollo. Tenemos entonces que:
+
+\begin{eqnarray}
+    \langle\tilde\Uppsi|\hat H|\tilde\Uppsi\rangle=\int \tilde\rho({\bf r})v({\bf r})+T[\tilde\rho]+V_{ee}[\tilde\rho]=E[\tilde\rho]\geq\langle\Uppsi|\hat H|\Uppsi\rangle=E[\rho]
+\end{eqnarray}
+
+La implicación de este último teorema expone la posibilidad de encontrar la densidad al minimizar el funcional de la energía bajo la condición de la ecuación (16). Ésto, implica según la teoría variacional que:
+
+\begin{equation}
+	\delta\left(E[\rho]-\mu\{\int \rho({\bf r})d{\bf r}-N\}\right)=0
+\end{equation}	
+
+Donde se ha introducido $\mu$ como multiplicador de Lagrange a la ligadura propuesta. La interpretación física de éste $\mu$ es el potencial químico. Al llevar a cabo ésta variación, se tiene:
+
+\begin{equation}
+	\mu=\frac{\delta E[\rho]}{\delta \rho}=v({\bf r})+\frac{\delta F[\rho]}{\delta\rho({\bf r})}
+\end{equation}
+
+Dado que:
+
+\begin{equation}
+	E[\rho]=\int \rho({\bf r})v({\bf r})d{\bf r}+F[\rho]
+\end{equation}
+
+con
+
+\begin{equation}
+	F[\rho]=T[\rho]+v_{ee}[\rho]
+\end{equation}
+
+\subsection{Ecuaciones de Kohn-Sham}
+
+Walter Kohn y Sham and Lu Jeu Sham trabajaron desde la base de los estados orbitales $\Uppsi_i$  que son los autoestados del operador densidad. Por lo tanto el operador densidad puede ser escrito como:
+
+\begin{equation}
+    \rho ({\bf r})=\sum_{i=1}^Nn_i\sum_s^{}|\Uppsi_i({\bf r}, s)|^2
+\end{equation}
+
+Con esta base, definimos una función arbitraria con la forma de una energía cinética:
+\begin{equation}
+	T_s[\rho]=\sum_{i=1}^n_i\langle\psi_i|-\frac{1}{2}\nabla^2|\psi_i\rangle
+\end{equation}
+
+Es importante notar que esta sería la energía cinética total del sistema si los electrones no interactuaran entre sí, esta suposición es demasiado fuerte para tomarla como una aproximación y por lo tanto se aclara que éste no es más que  es un término artificial y no tiene realmente significado físico en el sistema real. En adelante se seguirá trabajando con este tipo de artilugios matemáticos que son precisamente la idea esencial y la genialidad del trabajo de éstos autores.
+
+Ahora, considerando el principio de exclusión de Pauli, y notando que el significado físico de éstos autovalores al ser los autovalores del operador densidad es el número de electrones en cada orbital y considerando la naturaleza fermiónica de los electrones además de que el sistema se encuentra en una distribución de mínima energía, podemos concluir que para $i\leq N $, $n_i=1 $. De manera que, bajo estas suposiciones podemos escribir la densidad y la ``energía cinética" ficticia como:
+
+\begin{equation}
+	T_s[\rho]=\sum_{i=1}^{N}\langle\psi_i|-\frac{1}{2}\nabla^2|\psi_i\rangle
+\end{equation}
+	
+\begin{equation}
+	\rho=\sum_{i=1}^{N}\sum_{s}^{}|\psi_i(s,{\bf r})|^2
+\end{equation}
+
+De esta manera, el hamiltoniano auxiliar que usa este formalismo es:
+
+\begin{equation}
+	\hat{H}_s=-\sum_{i=1}^{N}\frac{1}{2}\nabla_i^2+\sum_{i=1}^{N}v_s(r_i)
+\end{equation}
+
+Que es un hamiltoniano que, como se dijo anteriormente, se define bajo un sistema no interactuante (lo que implica que el hamiltoniano puede ser dividido en partes, como el hamiltoniano de cada electrón) al que le corresponde una densidad bien definida y por lo tanto un potencial $v_s$ y unas correspondientes autofunciones $\Uppsi_i$ dado por el determinante de Slater (por ser N-representable {\color{magenta} tengo que ahondar más en la n-representabilidad}):
+\begin{equation}
+    \Uppsi_s=\frac{1}{N!}det[\psi_1\psi_2...\psi_N]
+\end{equation}
+
+Donde las funciones $\psi_i$ son las autofunciones del estado base de los hamiltonianos individuales:
+
+\begin{equation}
+    h_{si}\psi_i=\varepsilon_i\psi_i
+\end{equation}
+
+Pero, como se ha dicho, éste es un sistema auxiliar no físico que servirá para trabajar el sistema completo. Para ello se introducen entonces las diferencias entre el las cantidades del sistema real y las de este sistema ficticio que proponemos que dan cuenta entonces del intercambio de energía y la correlación entre electrones, a ello debe su nombre:
+
+\begin{equation}
+     E_{xc}[\rho]=T[\rho]-T_s[\rho]+v[\rho]-v_s[\rho]
+\end{equation}
+
+Dada esta definición, podemos reescribir el término $F[\rho]$ así:
+
+\begin{equation}
+	F[\rho]=T_s[\rho]+J[\rho]+E_{xc}[\rho]
+\end{equation}
+
+Lo que, en la ecuación que minimiza el funcional según el teorema 2 de Honhenberg-Kohn {\color{magenta} (23) fijarse que sí siga siendo esta ecuación}
+
+\begin{equation}
+	\mu=v_{eff}({\bf r})+\frac{\delta T_s}{\delta \rho}
+\end{equation}
+
+\begin{equation}
+	v_{eff}=v({\bf r})+\frac{\delta J[\rho]}{\delta \rho}+\frac{\delta E_{xc}}{\delta \rho}=v({\bf r})+\int\frac{\rho({\bf r'})}{|{\bf r-r'}|}d{\bf r}+v_{xc}(\bf r)
+\end{equation}
+
+Nótese dos cosas esenciales aquí: por un lado, ésta forma de minimización supone una ecuación de Schrödinger para las funciones de onda orbitales dadas por:{\color{magenta} ahondar en la demostración de esto, que es realmente muy facil, mirar notas propias o el Parr} 
+
+\begin{equation}
+	\left[\frac{1}{2}\nabla^2+V_{eff}\right]\psi_i=\upvarepsilon_i \psi_i
+\end{equation}
+
+Por otro lado, todos lo términos aquí están bien definidos, en términos de la densidad a excepción del término de intercambio y correlación sobre el que no se tiene una forma de solución. Como consecuencia, gran parte de los esfuerzos en el área del DFT han sido enfocados a plantear aproximaciones a éste término. Una de éstas fue propuesta por Kohn y Sham, llamada aproximación de densidad local que está dada por:
+
+\begin{equation}
+	E_{xc}^{LDA}[\rho]=\int \rho({\bf r})\upvarepsilon_{xc}(\rho)d{\bf r}
+\end{equation}
+
+Donde $\upvarepsilon_{xc}(\rho)$ indica la energía de intercambio y correlación por partícula (a esto debe su nombre de localidad).Con ésta definición:
+
+\begin{equation}
+    v_{xc}^{LDA}=\frac{\delta E_{xc}[\rho]}{\delta \rho({\bf r})}=\upvarepsilon_{xc}(\rho)+\rho\frac{\partial \upvarepsilon_{xc}(\rho)}{\partial \rho}
+\end{equation}
+Y por lo tanto, las ecuaciones de Kohn-Sham adquieren la forma:
+
+\begin{equation}
+    [-\frac{1}{2}\nabla^2+v({\bf r})+\int \frac{\rho({\bf r'})}{|{\bf r}-{\bf r'}}d{\bf r'}+ v_{xc}^{LDA}]\psi_i=\upvarepsilon_i \psi_i
+\end{equation}
+Ahora, para obtener una solución con esta propuesta es necesario conocer una forma explícita para el término $\upvarepsilon_{xc}$, en la LDA se propone una forma partiendo de la idea que se puede separar el término de intercambio y correlación, es decir, que se puede escribir:
+
+\begin{equation}
+    \upvarepsilon_{xc}=\upvarepsilon_{x}+\upvarepsilon_{c}
+\end{equation}
+
+Propuestas de energía de intercambio por particula ya se conoce una forma, conocida como energía de intercambio de Dirac, que es:{\color{magenta} podría sacar este término}
+
+\begin{equation}
+    \upvarepsilon_{x}(\rho)=-\frac{3}{4}\left(\frac{3}{\pi}\right)\rho({\bf r})^\frac{1}{3}
+\end{equation}
+
+La energía de correlación se considera muy pequeño, lo suficiente para ser despreciable. Con ésta aproximación se tiene una ecuación diferencial para ser resuelta, sin embargo, hay que notar que los términos del hamiltoniano, al depender de la densidad, tienen tambien una dependencia de las funciones de onda. Así, para obtener una solución, se parte de una densidad inicial $\tilde\rho$, se soluciona para las funciones de onda con las que se generan un nueva densidad con la que se construye el hamiltoniano, tomando la nueva densidad como $\tilde\rho$, y se repite el proceso hasta lograr una convergencia.
+
+\section{Metadinámica}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\vspace{10 cm}
+\section{Bibliografía}
+
+Jensen
+
+
+
+
+
+
+
+
+
+
+
+
+
+\vspace{20 cm}
+\nocite{*}
+\bibliographystyle{IEEEannot}
+\bibliography{annot}
+\end{document}
