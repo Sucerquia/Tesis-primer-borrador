@@ -8,12 +8,15 @@
 %% Reference: http://www.ctan.org/tex-archive/info/simplified-latex/
 
 \documentclass [11pt]{article}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{graphicx}% Include figure files
 \usepackage[spanish]{babel}
-\usepackage{upgreek}
 \selectlanguage{spanish}
 \usepackage[utf8]{inputenc}
+\usepackage{upgreek}
+
+\usepackage{mathtools}
+\usepackage{braket}
 
 \usepackage{xcolor}
 
@@ -26,24 +29,25 @@
 {\Large \bf Notación}\\
 
 {\color{red} No entiendo}\\
-{\color{blue} Creo que es así, pero tengo que aclararlo mejor para estar seguro}\\
+{\color{blue} Creo que es así, pero tengo que aclararlo mejor para estar
+seguro}\\
+{\color{Brown} corrección revisada}
 \section{Separación de la dinámica de electrones y núcleos con la aproximación Born-Oppenheimer}
 %Olga: te voy a introducir unos titulos para las secciones
-El Hamiltoniano que nosotros estamos considerando es:
+El Hamiltoniano que se comienza considerando es:
 %1
 \begin{equation}
     {\hat H}_{tot}={\hat T}_n+{\hat T}_e+{\hat V}_{ne}+{\hat V}_{ee}+{\hat V}_{nn}
 \end{equation}
 
-Que al cambiar de sistema de referencia al centro de masa lo que se tiene es:
+Que se puede reescribir como:
 %2-4
 \begin{eqnarray}
-    {\hat H}_{tot} & =  & {\hat T}_n+{\hat H}_e+{\hat H}_{mp} \\
-    {\hat H}_e & = & {\hat T}_e+{\hat V}_{ne}+{\hat V}_{ee}+{\hat V}_{nn}\\
-    {\hat H}_{mp} & = & -\frac{1}{2M_{tot}}\left(\sum_i^{N_{elec}}\nabla_i\right)^2
+    {\hat H}_{tot} & =  & {\hat T}_n+{\hat H}_e\\
+    {\hat H}_e & = & {\hat T}_e+{\hat V}_{ne}+{\hat V}_{ee}+{\hat V}_{nn}
 \end{eqnarray}
 %Olga: Te aconsejo no uses la descripcion que incluye el centro de masa sino que dejes el operador cinetico de los nucleos como el operador cinetico total donde cada termino es el cinetico con respecto a cada R
-$\hat H_e $ es la energía electrónica, y vemos que ésta sólo depende de la posición de los átomos y no de su momentum. Vamos a asumir entonces que existe una solción para el Hamiltoniano electrónico parametrizado con las coordenadas de los núcleos. Además, tenemos que el hamiltoniano electrónico es hermítico y por lo tanto puede escogerse como solución una base ortonormal. De manera que:  
+$\hat H_e $ es la energía electrónica, y vemos que ésta sólo depende de la posición de los átomos y no de sus momentums. Se va a asumir que existe una solción para el Hamiltoniano electrónico  en las coordenadas de los $b$ electrones ${\bf r}=({\bf r}_1,...,{\bf r}_b)$ y parametrizado con las coordenadas de los $d$ núcleos ${\bf R}=(/{\bf R}_1,...,{\bf R}_d)$. Además, tenemos que el hamiltoniano electrónico es hermítico y por lo tanto puede escogerse como solución una base ortonormal. De manera que:  
 %5-6
 \begin{eqnarray}
     {\hat H}_e({\bf R}) \Phi_i({\bf r};{\bf R})=\upvarepsilon_i({\bf R}) \Phi_i({\bf r};{\bf R})\\
@@ -62,51 +66,40 @@ Aplicando el hamiltoniano total a esta base, la cual debe ser autofunción (La d
 %8-10
 \begin{eqnarray}
     \hat H_{tot}\Uppsi_k & = & E_k\Uppsi_k\\
-    \left({\hat T}_n+{\hat H}_e+{\hat H}_{mp}\right)\left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)\\
-    \sum_{i=1}^{\infty}\left({\hat T}_n\upchi_{ik}\Phi_i+\upchi_{ik}{\hat H}_e\Phi_i+\upchi_{ik}{\hat H}_{mp}\Phi_i\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)
+    \left({\hat T}_n+{\hat H}_e\right)\left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)\\
+    \sum_{i=1}^{\infty}\left({\hat T}_n\upchi_{ik}\Phi_i+\upchi_{ik}{\hat H}_e\Phi_i\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)
 \end{eqnarray}
 
 Además, $\hat T_n=-\sum_{a}\frac{1}{2M_{a}}\nabla_a^2=\nabla_R^2$, donde nos permitimos definir el nuevo operador $\nabla_R$ aprovechando la linealidad del operador $\nabla_a$, que opera sólo sobre las coordenadas de los iones {\bf R}. De manera que lo que tenemos es:
 %11-13
 \begin{eqnarray}
-    \sum_{i=1}^{\infty}\left({\nabla_R^2}\upchi_{ik}\Phi_i+\upchi_{ik}{\hat H}_e\Phi_i+\upchi_{ik}{\hat H}_{mp}\Phi_i\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)\\
-    \sum_{i=1}^{\infty}\left(\begin{array}{cc}
-         {\nabla_R}\cdot({\nabla_R}\upchi_{ik}\Phi_i+\upchi_{ik}{\nabla_R}\Phi_i)+\\
-         \upchi_{ik}  \upvarepsilon_i
- \Phi_i+\upchi_{ik}{\hat H}_{mp}\Phi_i
-    \end{array}\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)\\
+    \sum_{i=1}^{\infty}\left({\nabla_R^2}\upchi_{ik}\Phi_i+\upchi_{ik}{\hat H}_e\Phi_i\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)\\
+    \sum_{i=1}^{\infty}\left({\nabla_R}\cdot({\nabla_R}\upchi_{ik}\Phi_i+\upchi_{ik}{\nabla_R}\Phi_i)+\upchi_{ik}\upvarepsilon_i\Phi_i\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)\\
     \sum_{i=1}^{\infty}\left(\begin{array}{cc}
          {\nabla_R}^2\upchi_{ik}\Phi_i+2{\nabla_R}\upchi_{ik}\cdot {\nabla_R}\Phi_i+\\
-         \upchi_{ik}{\nabla_R}^2\Phi_i+\upvarepsilon_i\upchi_{ik}\Phi_i+\upchi_{ik}{\hat H}_{mp}\Phi_i
+         \upchi_{ik}{\nabla_R}^2\Phi_i+\upvarepsilon_i\upchi_{ik}\Phi_i
     \end{array}\right) & = & E_k \left(\sum_{i=1}^{\infty}\upchi_{ik}\Phi_i\right)
 \end{eqnarray}\\
 
 Proyectando sobre el estado $\Phi_j^*$:
 \begin{eqnarray*}
-    {\nabla_R}^2\upchi_{jk}+\upvarepsilon_j \upchi_{jk}+\sum_{i=1}^{\infty}\left(
-    \begin{array}{cc}
-         2{\nabla_R}\upchi_{ik}\cdot\int \Phi_j^*{\nabla_R}\Phi_i d{\bf r}+\upchi_{ik}\int \Phi_j^*{\nabla_R^2}\Phi_i d{\bf r}\\
-         +\upchi_{ik}\int \Phi_j^*{\hat H}_{mp}\Phi_id{\bf r}
-    \end{array}\right) & = & E_k\upchi_{jk}
+    {\nabla_R}^2\upchi_{jk}+\upvarepsilon_j \upchi_{jk}+\sum_{i=1}^{\infty}\left(2{\nabla_R}\upchi_{ik}\cdot\int \Phi_j^*{\nabla_R}\Phi_i d{\bf r}+\upchi_{ik}\int \Phi_j^*{\nabla_R^2}\Phi_i d{\bf r}\right) & = & E_k\upchi_{jk}
 \end{eqnarray*}
 
-Utilizando la notación de Dirac para más comodidad lo que se tiene es:
+Utilizando la notación de Dirac para más comodidad en la lectura lo que se tiene es:
 
 \begin{eqnarray*}
-    {\nabla_R}^2\upchi_{jk}+\upvarepsilon_j \upchi_{jk}+\sum_{i=1}^{\infty}\left(
-    \begin{array}{cc}
-         2{\nabla_R}\upchi_{ik}\cdot\langle\Phi_j|\nabla_R|\Phi_i\rangle+\upchi_{ik}\langle\Phi_j|{\nabla_R^2}|\Phi_i\rangle\\
-         +\upchi_{ik}\langle\Phi_j|{\hat H}_{mp}|\Phi_i\rangle
-    \end{array}\right) & = & E_k\upchi_{jk}
+    {\nabla_R}^2\upchi_{jk}+\upvarepsilon_j \upchi_{jk}+\sum_{i=1}^{\infty}\left(2{\nabla_R}\upchi_{ik}\cdot\langle\Phi_j|\nabla_R|\Phi_i\rangle+\upchi_{ik}\langle\Phi_j|{\nabla_R^2}|\Phi_i\rangle \right) & = & E_k\upchi_{jk}
 \end{eqnarray*}
 
-Nótese que en la aproximación adiabática, la forma de la función de onda total está restringida a una superficie electrónica, es decir se elimina cualquier término de acople (sólo ``sobreviven" los términos donde i=j) \cite{jensen}. {\color{red} Pero eliminan también el término de $2{\nabla_R}\upchi_{ik}\cdot\langle\Phi_j|\nabla_R|\Phi_i\rangle$ y no explican por qué}. Por lo tanto, que lo que se tiene es:
+{\color{red} esto no lo entiendo muy bien: Los dos términos de la sumatoria son respectivamente el primer y segundo {\it elementos del acoplamiento no-adiabático} respectivamente.Éstos términos son relevantes en situaciones donde hay transición de niveles de energía electrónicos como reacciones fotoquímicas.}
+En la aproximación adiabática, la forma de la función de onda total está restringida a una superficie electrónica, es decir, se elimina cualquier término de acople (sólo ``sobreviven" los términos donde i=j) \cite{jensen}. {\color{red} Pero eliminan también el término de $2{\nabla_R}\upchi_{ik}\cdot\langle\Phi_j|\nabla_R|\Phi_i\rangle$ y no explican por qué}. Por lo tanto, que lo que se tiene es:
 %Olga: Son dos aproximaciones en una. La primera corresponde a tomar un solo termino de la suma en el ansatz para la funcion de onda total (que te sugiero reescribir para que quede clara) esto efectivamente es hacer i=j. La segunda aproximacion es despreciar esas derivadas. El sentido de despreciar esto lo voy a trabajar con Ana y Cristian el proximo Martes en la tarde tomando el ejemplo de una molecula diatomica. Seria bueno que vinieras para aclarar esto.
 \begin{eqnarray*}
-    {\nabla_R}^2\upchi_{jk}+\upvarepsilon_j \upchi_{jk}+\upchi_{jk}\langle\Phi_j|{\nabla_R^2}|\Phi_j\rangle+\upchi_{jk}\langle\Phi_j|{\hat H}_{mp}|\Phi_j\rangle =  E_k\upchi_{jk}
+    {\nabla_R}^2\upchi_{jk}+\upvarepsilon_j \upchi_{jk}+\upchi_{jk}\langle\Phi_j|{\nabla_R^2}|\Phi_j\rangle =  E_k\upchi_{jk}
 \end{eqnarray*}
 
-Retomando la definición anterior que se le había dado de $\hat T_n=\nabla_R^2$, y despreciando el término de masa de polarización( $\langle\Phi_j|{\hat H}_{mp}|\Phi_j\rangle$):
+Retomando la definición anterior que se le había dado de $\hat T_n=\nabla_R^2$:
 
 \begin{eqnarray*}
     (\hat T_n+\upvarepsilon_j+\langle\Phi_j|{\nabla_R^2}|\Phi_j\rangle) \upchi_{jk} =  E_k\upchi_{jk}
@@ -114,21 +107,44 @@ Retomando la definición anterior que se le había dado de $\hat T_n=\nabla_R^2$
 
 En la aproximación de Born-Oppenheimer (BOA), el término de $\langle\Phi_j|{\nabla_R^2}|\Phi_j\rangle$, conocido como corrección diagonal es ignorado y entonces se obtiene, retomando la notación con las dependencias:
 
-\begin{eqnarray*}
+\begin{equation}\label{BOA}
     (\hat T_n+\upvarepsilon_j({\bf R})) \upchi_{jk}({\bf R}) =  E_k\upchi_{jk}({\bf R})
-\end{eqnarray*}
+\end{equation}
 
 Que es la forma de la ecuación de Schrödinger. Entonces en la BOA se asume que la dinámica de los núcleos está mediada por una superficie de energía potencial dada por la solución de la ecuación de Schrödinger electrónica. Otra forma de entender conceptualmente la BOA es considerar que los cambios en la dinámica de los electrones y los núcleos se dan sobre escalas de tiempo bastante diferentes, con una diferencia de 3 ordenes de magnitud aproximadamente, al punto de que se pueden solucionar las ecuaciones dinámicas de forma independiente \cite{bransden}.
 
-Nótese que parte de la suposición fundamental de la BOA es la restricción a superficies electrónicas y por eso se despreciaron los términos cruzados más arriba. Físicamente, ésta restricción supone que el movimiento de los iones, no altera el estado de energía de los electrones. Para poder que ésto se mantenga y la BOA siga siendo válida, se debe garantizar que la solución de los niveles de energía electrónica no se aproximen unos a otros para cualquier valor de {\bf R}. Por ejemplo. 
+Nótese que parte de la suposición fundamental de la BOA es la restricción a superficies electrónicas y por eso se despreciaron los términos cruzados más arriba. Físicamente, ésta restricción supone que el movimiento de los iones, no altera el estado de energía de los electrones. Para poder que ésto se mantenga y la BOA siga siendo válida, se debe garantizar que la solución de los niveles de energía electrónica no se aproximen unos a otros para cualquier valor de {\bf R}. Por ejemplo, para el caso de la molécula LiF, existe una solución altamente polarizada representada por una función de onda iónica. Otra solución es la de la molécula disociada en dos átomos neutros. A cortas distancias, la energía de la solución iónica es menor, pero al incrementar la distancia de los núcleos ésta pasa a ser mayor como se ve en la figura \ref{cross}.\\
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{cross_energy}
+\includegraphics[width=0.8\linewidth]{cross_energy}
 \caption{Ejemplo de cruce de energía para la molécula Li-F}
 \label{cross}
 \end{figure}
-{\bf \color{blue}  Aun tengo que agregar en qué casos es que falla la aproximación. Entiendo que es cuando la energía de dos posibles estados es muy cercana}
+
+Antes de finalizar esta sección, se recuerda el Teorema de Ehrenfest que aborda el problema de la conexión entre las descripciones clasicas y cuanticas \cite{cohen}. Éste, explicitamente remarca que, siendo $\hat A$ el operador de un observable, entonces se cumple que:
+
+\begin{equation}
+    \frac{d\langle\hat A\rangle}{dt}=i \langle [\hat H,\hat A]\rangle+\Braket{\frac{\partial\hat A}{\partial t}}
+\end{equation}
+
+Aplicando el teorema de Ehrenfest al observable momentum del s-esimo átomo, con el hamiltoniano de la ecuación (\ref{BOA}):
+
+\begin{equation*}
+    \frac{d\langle\hat P_s\rangle_{\upchi_{jk}}}{dt}= \frac{i}{\hbar} \langle [\hat T_n+\upvarepsilon_j({\bf R}),\hat P_s]\rangle_{\upchi_{jk}}
+\end{equation*}
+\begin{equation}
+    \frac{d\langle\hat P_s\rangle_{\upchi_{jk}}}{dt}= \frac{i}{\hbar} \langle i \hbar\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R}) \rangle_{\upchi_{jk}}=-\langle\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R}) \rangle_{\upchi_{jk}}
+\end{equation}
+
+Nótese que casi se obtiene la ecuación de Newton, tomando $\upvarepsilon_j({\bf R})$ como energía potencial. Aun así, es importante notar que, en general, $\langle\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R}) \rangle_{\upchi_{jk}}\neq\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R})|_{R=\Braket{{\bf R}}} $. Sin embargo, sabiendo que el valor esperado está dado por:
+
+\begin{equation}\label{avr}
+    \langle\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R}) \rangle_{\upchi_{jk}}=\bra{\upchi_{jk}}\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R})\ket{\upchi_{jk}}=\int d{\bf R} \hspace{0.2 cm}|\upchi_{jk}({\bf R})|^2\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R})
+\end{equation}
+
+se puede considerar que las funciones de onda $\upchi_{jk}({\bf R})$ son paquetes de onda altamente localizados en $\Braket{{\bf R}}$, lo que significa que su norma es despreciable en regiones alejadas de $\Braket{{\bf R}}$ y toma valores significativos sólo en cierta región en la que $\upvarepsilon_j({\bf R})$ se puede considerar constante. Con esta suposición, se puede concluir a partir de la ecuación (\ref{avr}) que $\langle\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R}) \rangle_{\upchi_{jk}}\approx\nabla_{{\bf R_s}} \upvarepsilon_j({\bf R})|_{R=\Braket{{\bf R}}}$. Más adelante en la sección 3, cuando se profundice sobre el formalismo usado en este trabajo para describir los núcleos, se usará este resultado para abordar el problema como un sistema clásico.
+
 %Olga: antes de terminar aqui puedes notar que una vez estan separadas las dinamicas una aproximacion adicional es entonces considerar que la dinamica de los nucleos obedece una dinamica clasica donde la superficie de potential esta dada por los electrones que pueden ser cuanticos. Los nucleos segurian una ecuacion newtoniana donde las fuerzas se derivan con el potencial electronico. este punto es importante porque en metadinamica vas a hablar de dinamica clasica y aqui debe quedar claro cual es la razon por la que se hace esa aproximacion.
 \section{El problema electrónico con la Teoría del Funcional de la Densidad}
 
@@ -343,13 +359,13 @@ La energía de correlación se considera muy pequeña, lo suficiente para ser de
 \section{Aceleración de la exploración del espacio de configuración de los núcleos con Metadinámica}
 
 Usualmente las simulaciones de dinámica molecular se desarrollan basadas en las ecuaciones clásicas de la física utilizando potenciales de interacción entre pares, tripletas o incluso cuadruplas de átomos \cite{zukerman} {\color{magenta} podría hablar sobre la ecuación 5.12 del zuker}. Esto implica que una simulación tendría que considerar en cada paso de tiempo la interacción entre cada par, cada tripleta y cada cuadrupla indicada en el potencial, lo que implica una carga computacional demasiado elevada y, por lo tanto, una capacidad de simulación de a penas unos cuantos pasos de tiempo aun con los computadores más modernos. En consecuencia, al realizar una simulación con dinámica molecular estándar, el sistema sólo va a evolucionar sobre algunas configuraciones muy similares que quizás no sean de mucho interés para los investigadores. 
-%Ahora estas usando un potencial que viene de los electrones cuánticos. Aquí cabria agregar un parágrafo donde expliques como se ve el mismo problema pero cuando solucionas con DFT. 
+%Olga: Ahora estas usando un potencial que viene de los electrones cuánticos. Aquí cabria agregar un parágrafo donde expliques como se ve el mismo problema pero cuando solucionas con DFT. 
 
-Ante este problema han surgido diversas alternativas para explorar el espacio de configuraciones. En este trabajo se abordará un método bastante útil y en muchos sentidos innovador que ayuda a hacer una buena descripción tanto de las configuraciones de sistemas moleculares como de su evolución, brindando la posibilidad de construir trayectorias de reacción a partir de allí. Éste método es el de la metadinámica, el cual toma muchos resultados de la mecánica estadística y por eso, en esta sección se comienza haciendo una breve referencia a varios resultados de ésta área de la física.
+Ante este problema han surgido diversas alternativas para explorar el espacio de configuraciones. En este trabajo se abordará un método bastante útil y en muchos sentidos innovador que ayuda a hacer una buena descripción de las configuraciones de sistemas moleculares aun cuando haciendo una evolución temporal requiría de muchísimo esfuerzo computacional en recorrerlas, brindando la posibilidad de construir trayectorias de reacción a partir de allí. Éste método es el de la metadinámica, el cual toma muchos resultados de la mecánica estadística y por eso, en esta sección se comienza haciendo una breve referencia a varios resultados de ésta área de la física.
 
 \subsection{Principios estadísticos}
 
-Para comenzar se recuerda que, como resultado de la mecánica estadística se tiene que la densidad de probabilidad  para la configuración de un sistema es proporcional al factor de Boltzmann \cite{rief}:
+Para comenzar se recuerda que como resultado de la mecánica estadística se tiene que la densidad de probabilidad  para la configuración de un sistema es proporcional al factor de Boltzmann \cite{rief}:
 
 \begin{equation}
     \rho ({\bf x},{\bf v}){\hspace{0.2cm}} {\displaystyle \propto} {\hspace{0.2 cm}}e^{-\frac{E({\bf x},{\bf v})}{K_BT}}
@@ -367,15 +383,21 @@ Entonces, es claro que:
     Z= \frac{1}{h^{3N}}\int_{-\infty}^{\infty}d{\bf x} \int_{-\infty}^{\infty}d{\bf p}{\hspace{0.2 cm}}e^{-\frac{E({\bf x},{\bf v})}{K_BT}}
 \end{equation}
 
-Término también conocido como función de partición, dado que a partir de él se podrían encontrar varias de las cantidades más importantes en los análisis físicos. 
+Término también conocido como función de partición, dado que a partir de él se podrían encontrar varias de las cantidades más importantes en los análisis físicos. \\
 
-Para éste cálculo y en adelante, es importante notar que la energía mecánica puede ser escrita como la suma de la energía potencial y la cinética, es decir que $E({\bf x},{\bf v})= u({\bf x})+m v^2/2$. Con este hecho, tenemos entonces dos resultados importantes. El primero de ellos es que la función de distribución se puede escribir como la multiplicación entre dos términos, uno de ellos que contiene solamente velocidades y otro que contiene únicamente posiciones. Explicitamente, ésto es:
+Así, con esta definición de densidad de probabilidad completa, vale la pena recordar uno de sus usos más prominentes, que es el de encontrar un valor medio de una función. En forma general, dada la función $g({\bf x})$, para calcular el valor esperado de ésta, basta con resolver la integral:
+
+\begin{equation}
+    \langle g\rangle=\int_{-\infty}^{\infty} d{\bf x} g({\bf x}) \rho({\bf x})
+\end{equation}
+
+Por otra parte, para éste cálculo y en adelante es importante notar que la energía mecánica puede ser escrita como la suma de la energía potencial y la cinética, es decir que $E({\bf x},{\bf v})= u({\bf x})+m v^2/2$. Con este hecho, tenemos entonces dos resultados importantes. El primero de ellos es que la función de distribución se puede escribir como la multiplicación entre dos términos, uno de ellos que contiene solamente velocidades y otro que contiene únicamente posiciones. Explicitamente, ésto es:
 
 \begin{equation}
     e^{-\frac{E({\bf x},{\bf v})}{K_BT}}=e^{-\frac{u({\bf x})}{K_BT}}e^{-\frac{m v^2/2}{K_BT}}
 \end{equation}
 
- Físicamente, este resultado significa que las probabilidades de encontrar el sistema en una configuración dada y las de encontrarlo con cierta velocidad son independientes y por eso se puede trabajar con cada una por parte. Nuestro interés en este trabajo se va a centrar en la parte que da cuenta de la configuración del sistema, es decir, la parte de la probabilidad que contiene la energía potencial. 
+ Físicamente, este resultado significa que las probabilidades de encontrar el sistema en una configuración dada y las de encontrarlo con cierta velocidad son independientes y por eso se puede trabajar con cada una por aparte. Nuestro interés en este trabajo se va a centrar en la parte que da cuenta de la configuración del sistema, es decir, la parte de la probabilidad que contiene la energía potencial. 
  
  El segundo resultado es que la parte de las velocidades en la función de partición puede ser entonces integrado analíticamente, de tal modo que se obtiene el siguiente resultado:
 
@@ -399,11 +421,7 @@ Considerando, como se dijo anteriormente, que el interés es estudiar la probabi
 
 Sobre la función de partición y el factor de Boltzmann se deben hacer ciertas anotaciones interesantes. Por una parte, la función de partición no es realmente una función, a menos que se consideren los parámetros temperatura ($T$) y volumen ($V$) como variables. Por otra parte, es necesario notar que si entre las partículas en consideración (átomos por ejemplo), algunos de ellos son indistinguibles, es necesario agregar un término correctivo a la definición. En cualquier caso es claro que como éste término concierne a todo el sistema, es independiente del valor del argumento de la función de distribución, entonces es irrelevante cuando se quieran estudiar probabilidades relativas, dado que al dividir dos probabilidades del mismo sistema el término es cancelado. Además, en la mayoría de casos la función de partición no tiene una solución analítica y por tal razón, puede ser mejor tratar de evitar su uso, en su lugar muchos investigadores optan por hacer un análisis basados en probabilidades relativas. Como consecuencia, el factor de Boltzmann es suficiente para expresar probabilidades relativas y es fácil probar a partir de allí que la probabilidad relativa decrece a medida que la energía aumenta y que se aproxima a 1 a medida que la temperatura incrementa (lo que implica que las configuraciones o estados tiendan a ser equiprobables) y por lo tanto, un sistema dado podría llegar a visitar configuraciones a cierta temperatura que sería casi imposibles en temperaturas menores. Por otra parte es claro que agregar un término constante a la energía potencial no cambia las probabilidades relativas.\\
 
-Finalmente, vale la pena recordar que para encontrar un valor medio de una función dada $g({\bf x})$, basta con resolver la integral:
 
-\begin{equation}
-    \langle g\rangle=\int_{-\infty}^{\infty} d{\bf x} g({\bf x}) \rho({\bf x})
-\end{equation}
 
 \subsection{Energía libre}
 
@@ -430,7 +448,7 @@ Al preguntarse por la probabilidad de encontrar el sistema en el estado A, la re
      \frac{P_A}{P_B}=\frac{Z^{-1} \frac{1}{h^{3N}} \int_{-\infty}^{\infty}d{\bf p}\int_{V_A}d{\bf x}{\hspace{0.1 cm}}e^{-\frac{E({\bf x},{\bf v})}{K_BT}}}{Z^{-1} \frac{1}{h^{3N}} \int_{-\infty}^{\infty}d{\bf p}\int_{V_B}d{\bf x}{\hspace{0.1 cm}}e^{-\frac{E({\bf x},{\bf v})}{K_BT}}}=\frac{\frac{1}{\lambda^{3N}}\int_{V_A}d{\bf x}{\hspace{0.1 cm}}e^{-\frac{u({\bf x})}{K_BT}}}{\frac{1}{\lambda^{3N}}\int_{V_B}d{\bf x}{\hspace{0.1 cm}}e^{-\frac{u({\bf x})}{K_BT}}}
  \end{equation}
  
- Nótese que en la última igualación se ha eliminado la función de partición y que así mismo se pudiera haber hecho con la constante $\lambda$, aun así se ha evitado hacerlo porque se busca encontrar una expresión que dé cuenta de la probabilidad relativa de cada estado, la cual debe ser adimensional. Precisamente, a partir de esa expresión se define la energía libre como la cantidad que reemplaza la energía en el factor de Boltzmann y da cuenta de la probabilidad relativa de un estado \cite{zukerman},. En términos matemáticos, esto quiere decir, como se puede inferir de la ecuación  (\ref{prob_rel}), que la energía libre del estado $F_A$ se escribe:
+ Nótese que en la última igualación se ha eliminado la función de partición y que así mismo se pudiera haber hecho con la constante $\lambda$, aun así se ha evitado hacerlo porque se busca encontrar una expresión que dé cuenta de la probabilidad relativa de cada estado, la cual debe ser adimensional. Precisamente, a partir de esa expresión se define la energía libre como la cantidad que reemplaza la energía en el factor de Boltzmann y da cuenta de la probabilidad relativa de un estado \cite{zukerman}. En términos matemáticos, esto quiere decir, como se puede inferir de la ecuación  (\ref{prob_rel}), que la energía libre del estado $F_A$ se escribe:
  
  \begin{equation}
      e^{-\frac{F_A}{K_BT}}=\frac{1}{\lambda^{3N}}\int_{V_A}d{\bf x}{\hspace{0.1 cm}}e^{-\frac{u({\bf x})}{K_BT}}
@@ -439,7 +457,7 @@ Al preguntarse por la probabilidad de encontrar el sistema en el estado A, la re
 De aquí se obtiene la definición más común en los textos donde tocan este tema \cite{haile}:
 
 \begin{equation}
-    F_A=-K_BT\hspace{0.1 cm}Ln\left(\lambda^{-1}\int_{V_A}d{\bf x}{\hspace{0.1 cm}}e^{-\frac{u({\bf x})}{K_BT}}\right)=-K_BT\hspace{0.1 cm}Ln\left(Z\right)
+    F_A=-K_BT\hspace{0.1 cm}Ln\left(\lambda^{-3N}\int_{V_A}d{\bf x}{\hspace{0.1 cm}}e^{-\frac{u({\bf x})}{K_BT}}\right)=-K_BT\hspace{0.1 cm}Ln\left(Z\right)
 \end{equation}
 
 Nótese que, por construcción, ésta definición de energía libre da cuenta de las probabilidades relativas y por lo tanto se puede escribir:
@@ -464,7 +482,7 @@ Visto de esta manera, según como hemos desarrollado este marco teórico, se pue
 
 \subsection{Perfil de energía libre}
 
-En sistemas donde se tiene un gran número de variables (como una proteína por ejemplo), utilizar la definición de densidad de probabilidad mostrada en la ecuación (\ref{densidad_proba}) hace imposible el análisis físico y la identificación de las implicaciones de los resultados que se obtengan dado que hallar una solución análitica en la mayoría de los casos reales es casi imposible y aun con las soluciones númericas es realmente poca la información directa que se puede obtener dada la complejidad del sistema. En su lugar, lo mejor que se puede hacer es tratar de reducir el sistema a unas cuantas variables que den cuenta de la información que se quiere obtener de un sistema. Más adelante, en este trabajo, se hablará más en detalle sobre éstas variables. Por ahora, se define el perfil de energía libre con respecto a una variable $s= S({\bf x})$ (la mayúscula se usa aquí para denotar la función y la minúscula para la variable) como la proyección de la función de probabilidad sobre esa variable.
+En sistemas donde se tiene un gran número de variables (como una proteína por ejemplo), utilizar la definición de densidad de probabilidad mostrada en la ecuación (\ref{densidad_proba}) hace imposible el análisis físico y la identificación de las implicaciones de los resultados que se obtengan dado que hallar una solución analítica en la mayoría de los casos reales es casi imposible y aun con las soluciones numéricas es realmente poca la información directa que se puede obtener dada la complejidad del sistema. En su lugar, lo mejor que se puede hacer es tratar de reducir el sistema a unas cuantas variables que den cuenta de la información que se quiere obtener de un sistema. Más adelante, en este trabajo, se hablará más en detalle sobre éstas variables. Por ahora, se define el perfil de energía libre con respecto a una variable $s= S({\bf x})$ (la mayúscula se usa aquí para denotar la función y la minúscula para la variable) como la proyección de la función de probabilidad sobre esa variable.
 
 \begin{equation}\label{FES}
     e^{-\frac{F(s)}{K_BT}}=P(s)= \frac{Z^{-1}\int d{\bf x}\hspace{0.1 cm}\delta \left(s-S({\bf x})\right)e^{-u({\bf x})/K_BT}}{\rho^{uni}(s)}
@@ -482,7 +500,7 @@ Además, si bien no se tiene una receta sobre la construcción de las CVs, al me
 \begin{itemize}
     \item Se debe tener claro qué rangos de las CVs escogidas pertenecen a un estado u otro. Además, se deben existir configuraciones posibles entre estados.
     \item Debe contener las variaciones lentas correspondientes a la escala temporal que se esté simulando.
-    \item Deben ser una cantidad finita y en lo posible, una baja cantidad.
+    \item Deben ser una cantidad finita y en lo posible, una baja cantidad. 
 \end{itemize}
 
 La primera característica en esta lista surge de la necesidad de construir rutas te reacción entre estados que, se suponen en principio, son suaves con respecto a las variables colectivas. Ésta es una característica para garantizar el significado físico de las variables escogidas.
@@ -495,9 +513,9 @@ La primera característica en esta lista surge de la necesidad de construir ruta
 \label{error_CV}
 \end{figure}
 
-El segundo ítem contemplado, que es de hecho el más complicado, lo que dice precisamente es que tales CVs deben contener la dinámica, considerando que las variaciones rápidas del sistema pueden ser promediadas sin pérdida de generalidad. Sin embargo si no se tienen en cuenta todas las variables que concuerden con los cambios del sistema a la escala temporal escogida, lo que se espera es que el sistema por ejemplo se estanque en una de las configuraciones posibles aunque ésto no corresponda precisamente con el perfil de energía libre en esa variable (Figura \ref{error_CV}). Como consecuencia, es posible que el algoritmo no converja en la escala de tiempo accesible computacionalmente.
+El segundo ítem contemplado, que es de hecho el más complicado, lo que dice precisamente es que tales CVs deben contener la dinámica, considerando que las variaciones rápidas del sistema pueden ser promediadas sin pérdida de generalidad. Sin embargo si no se tienen en cuenta todas las variables que concuerden con los cambios del sistema a la escala temporal escogida, puede suceder algo como lo que se presenta en la Figura \ref{error_CV}, donde se toma un potencial dos dimensional de ejemplo (parte superior) en el que se ve claramente que para pasar del estado A al B, hay que superar barreras para ambas CVs. A partir de ese potencial, se proyecta a lo que sería la energía libre solamente de la CV $s_1$ (línea gruesa) y se trata de hacer el llenado de metadinámica como ya se describió antes, pero únicamente para esa CV (línea delgada). La consecuencia es que el sistema se queda estancado en uno de los estados (el B en la gráfica mostrada) dado que al usar solamente $s_1$ no se está considerando la parte de la dinámica que está escondida en la CV $s_2$, que es muy relevante porque contiene una barrera de energía que evita que el sistema pase de un estado a otro. Así, se presenta un fenómeno de histéresis que se prevé continúe a medida que el llenado se continúa llevando a cabo y provocando que no haya una convergencia en la energía libre.
 
-Finalmente la razón del último ítem citado es sencilla y es que la razón por la que se utiliza el perfil de energía libre es simplificar el sistema sin perder información. Por lo tanto, se busca obtener información completa del sistema en base de sólo unas cuantas variables. Si el número de éstas es muy grande, el análisis de los resultados tiende a ser seriamente poco intuitivo.\\
+Finalmente la razón del último ítem citado es sencilla y es la limitada capacidad de computo. Si el número de las variables colectivas es muy grande, los tiempos de llenado de los pozos de energía libre se hacen cada vez más extensos al punto de ser imposible llevar a cabo cálculos de tal magnitud, por lo que la razón de esta condición para las variables colectivas es una cuestión práctica. De manera que se busca obtener información completa del sistema en base a sólo unas cuantas variables.\\
 
 En química usualmente se refieren a éstas variables como variables de reacción. A continuación se presentan sólo un par de ejemplos de las mismas, aunque en la literatura se puede encontrar una gran variedad de éstas \cite{fiorin}.\\
 
@@ -519,30 +537,21 @@ donde i, j corren sobre dos conjuntos de átomos diferentes. En biofísica, ést
 
 \subsubsection{Cálculo de la energía libre}
 
-Las integrales que aparecen en la ecuación (\ref{FES}) son usualmente difíciles de integrar de forma analítica. Sin embargo, encontrar un resultado numérico para la energía libre no parece ser muy complicado dada su relación con la probabilidad. Básicamente, el proceso consiste en hacer un muestreo del espacio al hacer evolucionar el sistema bajo acción de una dinámica (Newtoniana o de Langevin, por ejemplo), hacer un histograma con las configuraciones encontradas evaluando el valor de s en cada una de ellas y con el histograma obtener una distribución de probabilidad o de forma equivalente, evolucionar el sistema durante un tiempo t y así obtener $P(s)=\frac{1}{t}\int_0^tdt' \delta(S({\bf x}(t'))-s)$. Una vez encontrada ésta distribución, basta con calcular el logaritmo natural, multiplicarlo por $-K_BT$ y listo.
+Las integrales que aparecen en la ecuación (\ref{FES}) son usualmente difíciles de integrar de forma analítica. Sin embargo, encontrar un resultado numérico para la energía libre no parece ser muy complicado dada su relación con la probabilidad. Básicamente, el proceso consiste en hacer un muestreo del espacio al hacer evolucionar el sistema bajo acción de una dinámica (Newtoniana o de Langevin, por ejemplo), hacer un histograma con las configuraciones encontradas evaluando el valor de $s$ en cada una de ellas y con el histograma obtener una distribución de probabilidad o de forma equivalente, evolucionar el sistema durante un tiempo t y así obtener $P(s)=\frac{1}{t}\int_0^tdt' \delta(S({\bf x}(t'))-s)$. Una vez encontrada ésta distribución, basta con calcular el logaritmo natural, multiplicarlo por $-K_BT$ y listo.
 
-Parece bastante simple, pero el problema al tratar de hacer estos cálculos es por lo general la forma en la que se lleva a cabo un muestreo que cubra todo el espacio de configuraciones relevante físicamente. Por tal razón, algunos investigadores han trabajado por proponer alternativas y de allí han surgido métodos como por ejemplo {\it umbrela sampling} \cite{patey-valleau}, {\it free energy perturbation} \cite{bash-singh} y metadinámica \cite{laio-gervasio}. En éste trabajo se hará enfasis en éste último método dada sus ventajas. \\
+Sin embargo, aunque la descripción anterior del método parezca bastante simple, existen grandes problemas en llevar a cabo el muestreo, ya que por más que se deje evolucionar el sistema, éste se mantendrá confinado en los estados más estables y las configuraciones ``extrañas" no llegan a ser muestreadas. Entonces la superficie de energía libre no queda totalmente reconstruida. Por tal razón, algunos investigadores han trabajado en proponer alternativas y de allí han surgido métodos como por ejemplo {\it umbrela sampling} \cite{patey-valleau}, {\it free energy perturbation} \cite{bash-singh} y metadinámica \cite{laio-gervasio}. En éste trabajo se hará énfasis en éste último método considerando sus ventajas. \\
 
 La idea conceptual sobre la que yace la metadinámica es la de llenar los pozos de energía libre, comenzando desde el punto más profundo del mismo de tal manera que se llegue a un tope lo más pronto posible. Es como si alguien cayera en un hoyo oscuro y no supiera por qué lado queda la salida más cercana. Si escalara por una de las paredes escogida de forma aleatoria, podría irse por aquella que es más alta y quizás no tenga una salida confiable. Entonces decide poner granos de arena sobre el piso y va subiendo el nivel del suelo hasta que llega a un borde. Es posible que el borde de ese pozo, no lo lleve directamente hacia la salida sino que lo lleva a otro pozo sobre el que tendría que hacer lo mismo hasta que llegue a donde espera.
 
-En la práctica, el análogo a poner granos de arena en el método consiste en agregar cada $\tau_G$ pasos temporales una Gaussiana a la energía potencial que hace evolucionar el sistema. De manera que la energía potencial adicional resultante tras t pasos de tiempo está dado por:
+En la práctica, el análogo a poner granos de arena en el método consiste en agregar cada $\tau_G$ pasos temporales una Gaussiana a la energía potencial que hace evolucionar el sistema. De manera que la energía potencial adicional resultante tras $t$ pasos de tiempo está dado por:
 
 \begin{equation}
-    V_G(s,t)=\omega\sum_{i=1}^{i<t/\tau_G}e^{-\frac{(s-s(i \tau_{\small{G}}))^2}{2\delta s^2}}
+    V_G(s,t)=\omega\sum_{i=\tau_G,2\tau_G...}^{i<t}e^{-\frac{(s-s(i))^2}{2\delta s^2}}
 \end{equation}
 
-Donde $\omega$ es la altura de la Gaussiana, $\delta s$ es el ancho de la Gaussiana y $\tau_G$ se recuerda que es la periodicidad con la que se agrega una nueva Gaussiana. De ésta manera, la energía potencial total contendrá tanto la cantidad correspondiente a la dinámica normal como las agregadas por las gaussianas y por lo tanto las fuerzas atómicas cambian a ser:
-
-\begin{equation}
+ Donde $\omega$ es la altura de la Gaussiana, $\delta s$ es el ancho de la Gaussiana y $\tau_G$ se recuerda que es la periodicidad con la que se agrega una nueva Gaussiana. Entonces, a la energía potencial del sistema se le agrega $V_G$ como valor adicional, el cual claramente no hace parte de la dinámica normal de el sistema sino que es un término agregado meramente para acelerar el muestreo del sistema y por lo tanto las fuerzas atómicas cambian a ser:
+ \begin{equation}\label{forces}
     {\bf f_i}({\bf x})=-\frac{\partial u({\bf x})}{\partial {\bf r_i}}-\frac{\partial V_G(s)}{\partial s}\frac{\partial s}{\partial {\bf r_i}}
-\end{equation}
-
-Y es de ésta manera que al sistema se le van inyectando de forma suave impulsos para explorar nuevas configuraciones posibles en el sistema y así reconstruir el perfil de energía libre.
-%ojo! SUPOSICIÓN!
-Transcurrido una cantidad de pasos de tiempo suficientes se puede concluir que:
-%Olga:Mucho cuidado en este paso!!! Se puede concluir? Como?
-\begin{equation}
-     \lim_{t\to\infty}V_G(s,t)=-F(s)
 \end{equation}
 
 Para llevar a cabo la evolución, se puede por ejemplo, aplicar recursivamente una ecuación de Langevin sobreamortiguado  \cite{zukerman} la cual es de la forma:
@@ -551,7 +560,17 @@ Para llevar a cabo la evolución, se puede por ejemplo, aplicar recursivamente u
     \frac{d{\bf r_i}}{dt}=-\frac{1}{m\gamma}{\bf f_i}+\frac{1}{m\gamma}{\bf f_{rand}}
 \end{equation}
 
-Donde el primer término ${\bf f_i}$ da cuenta de las fuerzas de las interacciones más la fuerza correspondiente a la metadinámica, mientras que ${\bf f_{rand}}$ supone una fuerza térmica que se incrementa con la temperatura.\\
+Donde el primer término ${\bf f_i}$ contiene tanto las fuerzas de las interacciones típicamente usadas en las simulaciones de dinámica molecular como la fuerza adicionada correspondiente a la metadinámica tal como se ve en (\ref{forces}), mientras que ${\bf f_{rand}}$ supone una fuerza térmica que se incrementa con la temperatura.\\
+
+Y es de ésta manera que al sistema se le van inyectando de forma suave impulsos para explorar nuevas configuraciones posibles en el sistema y así reconstruir el perfil de energía libre.\\
+
+Transcurrido una cantidad de pasos de tiempo suficientes se puede demostrar que \cite{PRL_Bussi}:
+
+\begin{equation}
+     \lim_{t\to\infty}V_G(s,t)=-F(s)
+\end{equation}
+
+
 
 \begin{figure}[t]
 \centering
@@ -570,7 +589,7 @@ Donde D es el coeficiente de difusión intrínseco del sistema. Nótese que adem
 
 A propósito del tiempo necesario para completar el llenado de los pozos, éste aspecto es un tanto incomodo para la metadinámica como se ha descrito hasta ahora, dado que no se tiene un criterio claro para definir la suficiencia en la cantida de gaussianas agregadas y acarrea consigo también el riesgo de que el sistema decaiga y se estanque en regiones de CVs irrelevantes físicamente.
 
-Para contrarrestar éste pequeño problema ha surgido un método alternativo llamado {\it well-tempered metadynamics} \cite{wellmeta} que varía un poco el algoritmo original y consiste en hacer que el tamaño de la altura de las gaussianas agregadas sean decrecientes en el tiempo. Con éste cambio, la energía adicional al sistema original resulta siendo:
+Para contrarrestar éste pequeño problema ha surgido un método alternativo llamado {\it well-tempered metadynamics}  \cite{wellmeta} que varía un poco el algoritmo original y consiste en hacer que el tamaño de la altura de las gaussianas agregadas sean decrecientes en el tiempo. Con éste cambio, la energía adicional al sistema original resulta siendo:
 
 \begin{equation}
      V_G(s,t)=\sum_{i=1}^{i<t/\tau_G}\omega e^{-\frac{V_G(s,t)}{K_B\Delta T}}e^{-\frac{(s-s(i \tau_{\small{G}}))^2}{2\delta s^2}}
